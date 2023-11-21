@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="model_financial_planning_program_form_view" model="ir.ui.view">
+        <field name="name">Financial Planning Program</field>
+        <field name="model">financial.planning.form</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_schedule" string="Schedule" type="object" states="draft" class="oe_highlight"/>
+                    <button name="action_start" string="Start" type="object" states="scheduled" class="oe_highlight"/>
+                    <button name="action_complete" string="Complete" type="object" states="started"
+                            class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Completed" bg_color="bg-success"
+                            attrs="{'invisible': [('state', '!=', 'completed')]}"/>
+                    <group>
+                        <group>
+                            <!--                            <field name="name"/>-->
+                            <field name="batch_id" attrs="{'readonly':[('state', '=', 'completed')]}"/>
+                            <label for="scheduled_date_one"/>
+                            <div class="o_row">
+                                <field name="scheduled_date_one" placeholder="Day 1"
+                                       attrs="{'readonly':[('state', '=', 'completed')]}"/>
+                                <field name="scheduled_date_two" placeholder="Day 2"
+                                       attrs="{'readonly':[('state', '=', 'completed')]}"/>
+                            </div>
+                            <!--                            <field name="photo" />-->
+                        </group>
+                        <group>
+                            <field name="coordinator_id" readonly="1"/>
+
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('state', 'in', ['draft','scheduled'])]}">
+                        <page string="Day 1" name="attendance">
+                            <field name="finance_ids" widget="one2many"
+                                   attrs="{'readonly':[('state', '=', 'completed')]}">
+                                <tree string="Students List" editable="bottom">
+                                    <field name="student_id" domain="[('batch_id','=', parent.batch_id)]"/>
+                                    <field name="attendance_day_one"/>
+                                    <!--                                    <field name="attendance_day_two"/>-->
+                                    <!--                                    <field name="certificate_distributed"/>-->
+                                    <!--                                    <field name="batch_strength"/>-->
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="day_one_strength"/>
+                            </group>
+                        </page>
+                        <page string="Day 2" name="attendance">
+                            <field name="finance_sec_ids" widget="one2many"
+                                   attrs="{'readonly':[('state', '=', 'completed')]}">
+                                <tree string="Students List" editable="bottom">
+                                    <field name="student_id" domain="[('batch_id','=', parent.batch_id)]"/>
+                                    <!--                                    <field name="attendance_day_one"/>-->
+                                    <field name="attendance_day_two"/>
+                                    <!--                                    <field name="certificate_distributed"/>-->
+                                    <!--                                    <field name="batch_strength"/>-->
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="day_two_strength"/>
+                            </group>
+                        </page>
+                        <page string="Certificates" name="attendance">
+                            <field name="certificate_ids" widget="one2many"
+                                   attrs="{'readonly':[('state', '=', 'completed')]}">
+                                <tree string="Certificates" editable="bottom">
+                                    <field name="student_id" domain="[('batch_id','=', parent.batch_id)]"/>
+                                    <!--                                    <field name="attendance_day_one"/>-->
+                                    <!--                                    <field name="attendance_day_two"/>-->
+                                    <field name="certificate_distributed"/>
+                                    <!--                                    <field name="batch_strength"/>-->
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Photo" name="photo">
+                            <group>
+                                <group>
+
+                                    <field name="photo_day_one" widget="image" style="width:150px;"
+                                           attrs="{'readonly':[('state', '=', 'completed')]}"/>
+                                </group>
+                                <group>
+                                    <field name="photo_day_two" widget="image" style="width:150px;"
+                                           attrs="{'readonly':[('state', '=', 'completed')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group name="note_group" col="6">
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="batch_strength">
+                            <field name="batch_strength"
+                                   attrs="{'invisible': [('state', 'in', ['draft','scheduled'])]}"/>
+                            <!--                            <field name="day_one_average"/>-->
+                            <!--                            <field name="day_two_average"/>-->
+                        </group>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="model_financial_planning_program_list_view" model="ir.ui.view">
+        <field name="name">Financial Planning Program</field>
+        <field name="model">financial.planning.form</field>
+        <field name="arch" type="xml">
+            <tree>
+                <!--                <field name="name"/>-->
+                <field name="batch_id"/>
+                <field name="coordinator_id"/>
+                <field name="day_one_average" widget="badge" string="Day1 Strength"/>
+                <field name="day_two_average" widget="badge" string="Day2 Strength"/>
+                <field name="state" widget="badge" decoration-success="state == 'completed'"
+                       decoration-info="state == 'scheduled'" decoration-primary="state == 'started'"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="model_financial_planning_program_action">
+        <field name="name">Financial Planning Program</field>
+        <field name="res_model">financial.planning.form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="FPP"
+              id="model_financial_planning_program_main_menu"
+              web_icon="financial_planning_program/static/description/icon.png"
+              sequence="1"/>
+
+    <menuitem name="Financial Planning Program"
+              id="model_financial_planning_program_menu"
+              action="model_financial_planning_program_action"
+              parent="model_financial_planning_program_main_menu"
+              sequence="2"/>
+
+</odoo>

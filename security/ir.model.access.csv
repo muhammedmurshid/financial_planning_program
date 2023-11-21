@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_financial_planning,access_financial_planning,model_financial_planning_form,logic_base.admin_logic_base,1,1,1,1
+access_financial_planning_students,access_financial_planning_students,model_financial_planning_students_list,,1,1,1,1
+access_financial_planning_students_second,access_financial_planning_students,model_second_day_planning,,1,1,1,1
+access_financial_planning_certificate,access_financial_planning_students,model_financial_certificate,,1,1,1,1
+
+access_financial_planning_coordinator,access_financial_planning,model_financial_planning_form,logic_base.coordinator_logic_base,1,1,1,1
+access_financial_planning_head,access_financial_planning,model_financial_planning_form,logic_base.academic_head_logic_base,1,1,1,1

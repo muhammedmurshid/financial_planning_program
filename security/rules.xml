@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="financial_planning_program_coordinator" model="ir.rule">
+            <field name="name">FPP Coordinator rule</field>
+            <field name="model_id" ref="model_financial_planning_form"/>
+            <field name="domain_force">['|',('create_uid.id','=', user.id), ('coordinator_id.id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('logic_base.coordinator_logic_base'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="financial_planning_program_heads" model="ir.rule">
+            <field name="name">FPP Heads rule</field>
+            <field name="model_id" ref="model_financial_planning_form"/>
+            <field name="domain_force">['|',('create_uid.id','=', user.id), ('coordinator_id.employee_id.parent_id.user_id.id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('logic_base.academic_head_logic_base'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>
