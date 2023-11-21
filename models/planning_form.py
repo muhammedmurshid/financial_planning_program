@@ -22,7 +22,7 @@ class FinancialPlanningForm(models.Model):
     certificate_ids = fields.One2many('financial.certificate', 'certificate_id', string='Certificate')
     day_one_strength = fields.Integer(string='Day 1 Strength', compute='_compute_day_one_strength', store=1)
     day_two_strength = fields.Integer(string='Day 2 Strength', compute='_compute_day_two_strength', store=1)
-
+    branch = fields.Many2one('logic.base.branches', related='batch_id.branch_id', string='Branch', readonly=True)
     day_one_average = fields.Char(string='Day 1 Average', compute='_compute_day_one_average', store=1)
     day_two_average = fields.Char(string='Day 2 Average', compute='_compute_day_two_average', store=1)
 
@@ -59,6 +59,14 @@ class FinancialPlanningForm(models.Model):
             self.certificate_ids = [(0, 0, {
                 'student_id': i.id
             })]
+            if self.scheduled_date_one:
+                self.finance_ids = [(0, 0, {
+                    'student_id': i.id
+                })]
+            if self.scheduled_date_two:
+                self.finance_sec_ids = [(0, 0, {
+                    'student_id': i.id
+                })]
         self.state = 'started'
 
     batch_strength = fields.Integer(string='Batch Strength', compute='_compute_batch_strength', store=True)
@@ -82,17 +90,17 @@ class FinancialPlanningForm(models.Model):
                         if j.student_id.id == i.id:
                             i.day_one_fpp = self.scheduled_date_one
                             i.fpp_present_one = 'present'
-                        else:
-                            i.day_one_fpp = self.scheduled_date_one
-                            i.fpp_present_one = 'absent'
+                        # else:
+                        #     i.day_one_fpp = self.scheduled_date_one
+                        #     i.fpp_present_one = 'absent'
                 if rec.finance_sec_ids:
                     for k in rec.finance_sec_ids:
                         if k.student_id.id == i.id:
                             i.day_two_fpp = self.scheduled_date_two
                             i.fpp_present_two = 'present'
-                        else:
-                            i.day_two_fpp = self.scheduled_date_two
-                            i.fpp_present_two = 'absent'
+                        # else:
+                        #     i.day_two_fpp = self.scheduled_date_two
+                        #     i.fpp_present_two = 'absent'
                 if rec.certificate_ids:
                     for c in rec.certificate_ids:
                         if c.student_id.id == i.id:
@@ -134,5 +142,5 @@ class FinancialCertificates(models.Model):
     _name = 'financial.certificate'
 
     student_id = fields.Many2one('logic.students', string='Student')
-    certificate_distributed = fields.Boolean(string='Certificate')
+    certificate_distributed = fields.Boolean(string='Certificate', default=True)
     certificate_id = fields.Many2one('financial.planning.form',  ondelete='cascade', string='Certificate')

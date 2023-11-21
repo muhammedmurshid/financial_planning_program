@@ -20,6 +20,7 @@
                         <group>
                             <!--                            <field name="name"/>-->
                             <field name="batch_id" attrs="{'readonly':[('state', '=', 'completed')]}"/>
+                            <field name="branch" attrs="{'readonly':[('state', '=', 'completed')]}"/>
                             <label for="scheduled_date_one"/>
                             <div class="o_row">
                                 <field name="scheduled_date_one" placeholder="Day 1"
@@ -35,12 +36,12 @@
                         </group>
                     </group>
                     <notebook attrs="{'invisible': [('state', 'in', ['draft','scheduled'])]}">
-                        <page string="Day 1" name="attendance">
+                        <page string="Day 1 Attendance" name="attendance">
                             <field name="finance_ids" widget="one2many"
                                    attrs="{'readonly':[('state', '=', 'completed')]}">
                                 <tree string="Students List" editable="bottom">
                                     <field name="student_id" domain="[('batch_id','=', parent.batch_id)]"/>
-                                    <field name="attendance_day_one"/>
+                                    <field name="attendance_day_one" invisible="1"/>
                                     <!--                                    <field name="attendance_day_two"/>-->
                                     <!--                                    <field name="certificate_distributed"/>-->
                                     <!--                                    <field name="batch_strength"/>-->
@@ -50,13 +51,13 @@
                                 <field name="day_one_strength"/>
                             </group>
                         </page>
-                        <page string="Day 2" name="attendance">
+                        <page string="Day 2 Attendance" name="attendance">
                             <field name="finance_sec_ids" widget="one2many"
                                    attrs="{'readonly':[('state', '=', 'completed')]}">
                                 <tree string="Students List" editable="bottom">
                                     <field name="student_id" domain="[('batch_id','=', parent.batch_id)]"/>
                                     <!--                                    <field name="attendance_day_one"/>-->
-                                    <field name="attendance_day_two"/>
+                                    <field name="attendance_day_two" invisible="1"/>
                                     <!--                                    <field name="certificate_distributed"/>-->
                                     <!--                                    <field name="batch_strength"/>-->
                                 </tree>
