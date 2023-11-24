@@ -26,6 +26,11 @@ class FinancialPlanningForm(models.Model):
     day_one_average = fields.Char(string='Day 1 Average', compute='_compute_day_one_average', store=1)
     day_two_average = fields.Char(string='Day 2 Average', compute='_compute_day_two_average', store=1)
 
+    digital_support_received = fields.Boolean(string='Digital Support Received')
+    rating = fields.Selection(
+        selection=[('0', 'No rating'), ('1', 'Very Poor'), ('2', 'Poor'), ('3', 'Average'), ('4', 'Good'),
+                   ('5', 'Very Good')], string="Rating", default='0')
+
     @api.depends('day_two_strength','batch_strength')
     def _compute_day_two_average(self):
         for rec in self:
