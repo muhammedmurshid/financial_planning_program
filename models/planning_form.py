@@ -30,8 +30,9 @@ class FinancialPlanningForm(models.Model):
     rating = fields.Selection(
         selection=[('0', 'No rating'), ('1', 'Very Poor'), ('2', 'Poor'), ('3', 'Average'), ('4', 'Good'),
                    ('5', 'Very Good')], string="Rating", default='0')
+    academic_head_id = fields.Many2one('res.users', string='Academic Head', related='coordinator_id.employee_id.parent_id.user_id')
 
-    @api.depends('day_two_strength','batch_strength')
+    @api.depends('day_two_strength', 'batch_strength')
     def _compute_day_two_average(self):
         for rec in self:
             rec.day_two_average = str(rec.day_two_strength) + ' ' + '/' + ' ' + str(rec.batch_strength)
@@ -148,4 +149,4 @@ class FinancialCertificates(models.Model):
 
     student_id = fields.Many2one('logic.students', string='Student')
     certificate_distributed = fields.Boolean(string='Certificate', default=True)
-    certificate_id = fields.Many2one('financial.planning.form',  ondelete='cascade', string='Certificate')
+    certificate_id = fields.Many2one('financial.planning.form', ondelete='cascade', string='Certificate')
