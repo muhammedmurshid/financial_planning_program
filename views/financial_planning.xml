@@ -20,6 +20,7 @@
                         <group>
                             <!--                            <field name="name"/>-->
                             <field name="batch_id" attrs="{'readonly':[('state', '=', 'completed')]}"/>
+                            <field name="course_id" attrs="{'readonly':[('state', '=', 'completed')]}"/>
                             <field name="branch" attrs="{'readonly':[('state', '=', 'completed')]}"/>
                             <label for="scheduled_date_one"/>
                             <div class="o_row">
