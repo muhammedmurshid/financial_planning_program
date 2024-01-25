@@ -12,6 +12,17 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
+        <record id="financial_planning_program_super_coordinator" model="ir.rule">
+            <field name="name">FPP Super Coordinator rule</field>
+            <field name="model_id" ref="model_financial_planning_form"/>
+            <field name="domain_force">['|',('create_uid.id','=', user.id), ('coordinator_id.id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('logic_base.logic_base_super_coordinator'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
         <record id="financial_planning_program_heads" model="ir.rule">
             <field name="name">FPP Heads rule</field>
             <field name="model_id" ref="model_financial_planning_form"/>
