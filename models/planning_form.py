@@ -30,7 +30,7 @@ class FinancialPlanningForm(models.Model):
     rating = fields.Selection(
         selection=[('0', 'No rating'), ('1', 'Very Poor'), ('2', 'Poor'), ('3', 'Average'), ('4', 'Good'),
                    ('5', 'Very Good')], string="Rating", default='0')
-    course_id = fields.Many2one('logic.base.courses', string='Course', related='batch_id.course_id')
+    course_id = fields.Many2one('logic.base.courses', string='Course', related='batch_id.course_id', domain=[('state', '=', 'done')])
     academic_head_id = fields.Many2one('res.users', string='Academic Head', related='coordinator_id.employee_id.parent_id.user_id')
 
     @api.depends('day_two_strength', 'batch_strength')
