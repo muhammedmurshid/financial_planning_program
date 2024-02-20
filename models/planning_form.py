@@ -17,6 +17,7 @@ class FinancialPlanningForm(models.Model):
         string='State', default='draft', tracking=True)
     photo_day_one = fields.Binary(string='Day 1')
     photo_day_two = fields.Binary(string='Day 2')
+    created_date = fields.Date(string='Added Date', default=fields.Date.today, readonly=True)
     finance_ids = fields.One2many('financial.planning.students.list', 'finance_id', string='Finance')
     finance_sec_ids = fields.One2many('second.day.planning', 'finance_sec_id', string='Finance')
     certificate_ids = fields.One2many('financial.certificate', 'certificate_id', string='Certificate')

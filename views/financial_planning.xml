@@ -34,6 +34,7 @@
                         <group>
                             <field name="coordinator_id" readonly="1"/>
                             <field name="academic_head_id"/>
+                            <field name="created_date"/>
 
                         </group>
                         <group string="Rating" attrs="{'invisible': [('state', '!=', 'completed')]}">
@@ -126,6 +127,7 @@
                 <!--                <field name="name"/>-->
                 <field name="batch_id"/>
                 <field name="coordinator_id"/>
+                <field name="created_date"/>
                 <field name="academic_head_id"/>
                 <field name="day_one_average" widget="badge" string="Day1 Strength"/>
                 <field name="day_two_average" widget="badge" string="Day2 Strength"/>
